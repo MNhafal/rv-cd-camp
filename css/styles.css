@@ -1,0 +1,577 @@
+/* ================================================
+   RESET & BASE
+   ================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Dark theme (default) ── */
+:root,
+[data-theme="dark"] {
+  --bg:          #0f1117;
+  --surface:     #1a1d27;
+  --surface-2:   #22263a;
+  --border:      #2e3250;
+  --accent:      #6c63ff;
+  --accent-dark: #5548e0;
+  --danger:      #e05555;
+  --success:     #3ecf8e;
+  --text:        #e8eaf0;
+  --text-muted:  #7a7f9a;
+  --radius:      12px;
+  --shadow:      0 4px 24px rgba(0,0,0,0.35);
+  --font:        'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+/* ── Light theme ── */
+[data-theme="light"] {
+  --bg:          #f0f2f8;
+  --surface:     #ffffff;
+  --surface-2:   #e8ebf4;
+  --border:      #c8cde6;
+  --accent:      #5548e0;
+  --accent-dark: #4338ca;
+  --danger:      #c0392b;
+  --success:     #1a9e6e;
+  --text:        #1a1d2e;
+  --text-muted:  #5a607a;
+  --shadow:      0 4px 24px rgba(0,0,0,0.10);
+}
+
+html {
+  font-size: 16px;
+  /* smooth theme transition */
+  transition: background 0.2s;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  padding: 0 1rem 4rem;
+  line-height: 1.6;
+  transition: background 0.2s, color 0.2s;
+}
+
+/* ================================================
+   TOP BAR
+   ================================================ */
+.topbar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.75rem 0.5rem 0;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.topbar-btn {
+  font-size: 1.2rem;
+  padding: 0.35rem 0.6rem;
+}
+
+/* ================================================
+   GREETING HEADER
+   ================================================ */
+.greeting-section {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  padding-top: 1rem;
+  position: relative;
+}
+
+.greeting {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.datetime {
+  margin-top: 0.35rem;
+  font-size: 1rem;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+
+/* pencil icon next to greeting */
+.name-pencil {
+  font-size: 0.85rem;
+  padding: 0.2rem 0.45rem;
+  margin-top: 0.4rem;
+  opacity: 0.5;
+  transition: opacity 0.15s;
+}
+
+.name-pencil:hover {
+  opacity: 1;
+}
+
+/* name edit row */
+.name-edit-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.name-input {
+  background: var(--surface-2);
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.95rem;
+  font-family: var(--font);
+  color: var(--text);
+  outline: none;
+  width: 180px;
+  transition: border-color 0.15s;
+}
+
+.name-input::placeholder {
+  color: var(--text-muted);
+}
+
+/* small button variant */
+.btn-sm {
+  padding: 0.35rem 0.85rem;
+  font-size: 0.8rem;
+}
+
+/* ================================================
+   TIMER DURATION SETTING
+   ================================================ */
+.timer-setting {
+  border-top: 1px solid var(--border);
+  padding-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.setting-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+}
+
+.setting-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.duration-input {
+  width: 72px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.4rem 0.7rem;
+  font-size: 0.95rem;
+  font-family: var(--font);
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.15s;
+  /* hide browser spinners */
+  -moz-appearance: textfield;
+}
+
+.duration-input::-webkit-inner-spin-button,
+.duration-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+}
+
+.duration-input:focus {
+  border-color: var(--accent);
+}
+
+/* hide duration setting while timer is running or paused */
+#timer-card.running  .timer-setting,
+#timer-card.paused   .timer-setting {
+  display: none;
+}
+
+/* ================================================
+   DASHBOARD GRID
+   ================================================ */
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ================================================
+   CARD
+   ================================================ */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.75rem 1.5rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.card-title {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+}
+
+/* ================================================
+   BUTTONS
+   ================================================ */
+.btn {
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  padding: 0.55rem 1.2rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: var(--font);
+  transition: background 0.15s, transform 0.1s, opacity 0.15s;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: var(--accent-dark);
+}
+
+.btn-secondary {
+  background: var(--surface-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.btn-secondary:hover {
+  background: var(--border);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+
+.btn-ghost:hover {
+  color: var(--text);
+  border-color: var(--text-muted);
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ================================================
+   FOCUS TIMER
+   ================================================ */
+.timer-display {
+  font-size: 4.5rem;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 0.02em;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.timer-controls {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* pulse ring when running */
+#timer-card.running .timer-display {
+  color: var(--accent);
+}
+
+/* ================================================
+   TO-DO LIST
+   ================================================ */
+/* card title row with sort control */
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.sort-select {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.75rem;
+  font-family: var(--font);
+  color: var(--text-muted);
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.sort-select:focus,
+.sort-select:hover {
+  border-color: var(--accent);
+  color: var(--text);
+}
+
+/* duplicate / warning message */
+.todo-warn {
+  font-size: 0.82rem;
+  color: var(--danger);
+  padding: 0.15rem 0;
+}
+.todo-form,
+.link-form {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.todo-input {
+  flex: 1;
+  min-width: 0;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.55rem 0.9rem;
+  font-size: 0.9rem;
+  font-family: var(--font);
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.todo-input:focus {
+  border-color: var(--accent);
+}
+
+.todo-input::placeholder {
+  color: var(--text-muted);
+}
+
+.todo-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.6rem 0.85rem;
+  transition: border-color 0.15s;
+}
+
+.todo-item:hover {
+  border-color: var(--accent);
+}
+
+.todo-item input[type="checkbox"] {
+  width: 1.1rem;
+  height: 1.1rem;
+  accent-color: var(--success);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.todo-item .task-text {
+  flex: 1;
+  font-size: 0.92rem;
+  word-break: break-word;
+  transition: color 0.15s;
+}
+
+.todo-item.done .task-text {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+.todo-item .edit-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--accent);
+  color: var(--text);
+  font-size: 0.92rem;
+  font-family: var(--font);
+  outline: none;
+  padding: 0.1rem 0;
+}
+
+.todo-item .item-actions {
+  display: flex;
+  gap: 0.35rem;
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.todo-item:hover .item-actions,
+.todo-item:focus-within .item-actions {
+  opacity: 1;
+}
+
+.icon-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  padding: 0.2rem 0.4rem;
+  border-radius: 6px;
+  transition: color 0.15s, background 0.15s;
+  line-height: 1;
+}
+
+.icon-btn:hover {
+  color: var(--text);
+  background: var(--border);
+}
+
+.icon-btn.danger:hover {
+  color: var(--danger);
+}
+
+.todo-empty {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 0.5rem 0;
+}
+
+/* ================================================
+   QUICK LINKS
+   ================================================ */
+.link-form {
+  flex-direction: column;
+}
+
+.link-form .row {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.links-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.link-chip {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.65rem 0.9rem 0.5rem;
+  text-decoration: none;
+  color: var(--text);
+  font-size: 0.88rem;
+  font-weight: 500;
+  transition: border-color 0.15s, background 0.15s;
+  position: relative;
+  min-width: 64px;
+  text-align: center;
+}
+
+.link-chip:hover {
+  border-color: var(--accent);
+  background: var(--border);
+}
+
+.link-chip .chip-favicon {
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.link-chip .chip-delete {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: var(--surface);
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  line-height: 1;
+  padding: 0.15rem 0.3rem;
+  border-radius: 4px;
+  transition: color 0.15s, opacity 0.15s;
+  opacity: 0;
+}
+
+.link-chip:hover .chip-delete,
+.link-chip:focus-within .chip-delete {
+  opacity: 1;
+}
+
+.link-chip .chip-delete:hover {
+  color: var(--danger);
+}
+
+/* ================================================
+   SCROLLBAR (webkit)
+   ================================================ */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+/* ================================================
+   RESPONSIVE
+   ================================================ */
+@media (max-width: 480px) {
+  .greeting {
+    font-size: 1.5rem;
+  }
+
+  .timer-display {
+    font-size: 3.5rem;
+  }
+
+  .dashboard {
+    grid-template-columns: 1fr;
+  }
+}

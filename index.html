@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Dashboard</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- TOP BAR: theme toggle -->
+  <div class="topbar">
+    <button id="theme-toggle" class="icon-btn topbar-btn" aria-label="Switch to light mode" title="Toggle light / dark mode">
+      🌙
+    </button>
+  </div>
+
+  <!-- GREETING -->
+  <header class="greeting-section">
+    <p id="greeting-text" class="greeting"></p>
+    <p id="datetime-text" class="datetime"></p>
+    <!-- Name edit (shown inline when pencil is clicked) -->
+    <div class="name-edit-row" id="name-edit-row" style="display:none;">
+      <input
+        type="text"
+        id="name-input"
+        class="name-input"
+        placeholder="Your name"
+        maxlength="40"
+        aria-label="Your name"
+      />
+      <button id="name-save" class="btn btn-primary btn-sm">Save</button>
+      <button id="name-cancel" class="btn btn-ghost btn-sm">Cancel</button>
+    </div>
+    <button id="name-edit-btn" class="icon-btn name-pencil" aria-label="Edit your name" title="Set your name">✏️</button>
+  </header>
+
+  <main class="dashboard">
+
+    <!-- FOCUS TIMER -->
+    <section class="card" id="timer-card">
+      <h2 class="card-title">Focus Timer</h2>
+      <div class="timer-display" id="timer-display">25:00</div>
+      <div class="timer-controls">
+        <button id="timer-start" class="btn btn-primary">Start</button>
+        <button id="timer-stop"  class="btn btn-secondary">Stop</button>
+        <button id="timer-reset" class="btn btn-ghost">Reset</button>
+      </div>
+      <!-- Duration setting (shown only when timer is idle) -->
+      <div class="timer-setting" id="timer-setting">
+        <label for="timer-duration" class="setting-label">Duration (minutes)</label>
+        <div class="setting-row">
+          <input
+            type="number"
+            id="timer-duration"
+            class="duration-input"
+            min="1"
+            max="120"
+            value="25"
+            aria-label="Timer duration in minutes"
+          />
+          <button id="timer-set" class="btn btn-ghost btn-sm">Set</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TO-DO LIST -->
+    <section class="card" id="todo-card">
+      <div class="card-header">
+        <h2 class="card-title">To-Do List</h2>
+        <select id="todo-sort" class="sort-select" aria-label="Sort tasks">
+          <option value="added">Order added</option>
+          <option value="az">A → Z</option>
+          <option value="za">Z → A</option>
+          <option value="pending">Pending first</option>
+          <option value="done">Done first</option>
+        </select>
+      </div>
+      <form id="todo-form" class="todo-form" autocomplete="off">
+        <input
+          type="text"
+          id="todo-input"
+          class="todo-input"
+          placeholder="Add a new task..."
+          maxlength="120"
+          required
+        />
+        <button type="submit" class="btn btn-primary">Add</button>
+      </form>
+      <p id="todo-duplicate-msg" class="todo-warn" style="display:none;">
+        ⚠️ That task already exists.
+      </p>
+      <ul id="todo-list" class="todo-list"></ul>
+      <p id="todo-empty" class="todo-empty">No tasks yet. Add one above!</p>
+    </section>
+
+    <!-- QUICK LINKS -->
+    <section class="card" id="links-card">
+      <h2 class="card-title">Quick Links</h2>
+      <form id="link-form" class="link-form" autocomplete="off">
+        <input
+          type="text"
+          id="link-name"
+          class="todo-input"
+          placeholder="Label (e.g. GitHub)"
+          maxlength="40"
+          required
+        />
+        <input
+          type="url"
+          id="link-url"
+          class="todo-input"
+          placeholder="https://..."
+          required
+        />
+        <button type="submit" class="btn btn-primary">Add Link</button>
+      </form>
+      <div id="links-grid" class="links-grid"></div>
+      <p id="links-empty" class="todo-empty">No links saved yet. Add one above!</p>
+    </section>
+
+  </main>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
